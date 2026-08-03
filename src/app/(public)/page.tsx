@@ -20,7 +20,7 @@ export default function Home() {
 
           <div className="mt-6 flex justify-center md:justify-start">
             <Link
-              href="/"
+              href="/products"
               className="
                 rounded-lg
                 font-bold
@@ -42,6 +42,7 @@ export default function Home() {
         <Image
           src="/assets/home.jpg"
           alt="ByteStore Banner"
+          loading="eager"
           width={1200}
           height={600}
           className="h-75 w-full rounded-2xl object-cover md:h-112.5"

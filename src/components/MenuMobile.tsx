@@ -24,7 +24,7 @@ export function MenuMobile() {
           Home
         </Link>
 
-        <Link href="/" className={menuItem}>
+        <Link href="/products" className={menuItem}>
           Products
         </Link>
 
