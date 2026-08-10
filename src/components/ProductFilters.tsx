@@ -16,6 +16,8 @@ type ProductFiltersProps = {
   setCategories: Dispatch<SetStateAction<string[]>>;
   brand: string;
   setBrand: (value: string) => void;
+  search: string;
+  setSearch: (value: string) => void;
 };  
 
 export function ProductFilters({
@@ -23,6 +25,8 @@ export function ProductFilters({
   setCategories,
   brand,
   setBrand,
+  search,
+  setSearch
 }: ProductFiltersProps) {
 
   const categoriesType = [
@@ -55,7 +59,7 @@ export function ProductFilters({
   };
 
   return(
-    <div className="flex flex-wrap gap-3 mt-6 ml-9">
+    <div className="flex flex-wrap items-center gap-3 mt-6 px-4 md:px-9">
       {categoriesType.map((data) => (
         <button
           key={data.value}
@@ -72,7 +76,7 @@ export function ProductFilters({
         </button>
       ))}
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex items-center gap-4">
         <Select value={brand} onValueChange={setBrand}>
           <SelectTrigger 
             className={cn(
@@ -104,6 +108,12 @@ export function ProductFilters({
             </button>
           )}
       </div>
+        <input 
+          className="md:ml-auto rounded-xl border border-zinc-200 bg-white px-3 py-1 text-sm text-zinc-600 outline-none placeholder:text-zinc-400 focus:border-purple-400" 
+          placeholder="Search products..." 
+          value={search} 
+          onChange={(e) => setSearch(e.target.value)} 
+        />
     </div>
   )
 }

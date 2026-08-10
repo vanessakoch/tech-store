@@ -33,10 +33,6 @@ export function Navbar() {
           >
             Products
           </Link>
-
-          <Link href="/" className={navLink}>
-            Categories
-          </Link>
         </div>
 
         <div className="flex items-center gap-4">

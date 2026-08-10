@@ -12,8 +12,13 @@ type ProductsClientProps = {
 export function ProductsClient({ products }: ProductsClientProps) {
   const [categories, setCategories] = useState<string[]>([]);
   const [brand, setBrand] = useState("");
+  const [search, setSearch] = useState("");
 
   const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
     const matchesCategory =
       categories.length === 0 ||
       categories.includes(product.category);
@@ -22,7 +27,7 @@ export function ProductsClient({ products }: ProductsClientProps) {
       !brand ||
       product.brand?.toLowerCase() === brand;
 
-    return matchesCategory && matchesBrand;
+    return matchesCategory && matchesBrand && matchesSearch;
   });
 
   return (
@@ -32,6 +37,8 @@ export function ProductsClient({ products }: ProductsClientProps) {
         setCategories={setCategories}
         brand={brand}
         setBrand={setBrand}
+        search={search}
+        setSearch={setSearch}
       />
 
       {filteredProducts.length > 0 ? (
