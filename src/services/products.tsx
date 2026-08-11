@@ -25,10 +25,10 @@ export async function getElectronicsProducts(): Promise<Product[]> {
   return responses.flatMap(response => response.products);
 }
 
-export async function getProduct(id: number) {
-  return api(`/products/${id}`);
-}
-
-export async function searchProducts(query: string) {
-  return api(`/products/search?q=${query}`);
+export async function getProduct(id: number): Promise<Product> {
+  return api(`/products/${id}`, {
+    next: {
+      revalidate: 3600,
+    }
+  });
 }
