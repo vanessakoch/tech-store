@@ -1,11 +1,12 @@
 "use client";
 
-import { Product } from "@/types/product";
-import { Check, X } from "lucide-react";
-import { useState } from "react";
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
+import { useState } from "react";
+import { FaCheck, FaTruck } from "react-icons/fa6";
+import { X } from "lucide-react";
 
+import { Product } from "@/types/product";
+import { FaHeart } from "react-icons/fa";
 
 type ProductProps = {
   product: Product;
@@ -14,192 +15,245 @@ type ProductProps = {
 export function ProductDetail({ product }: ProductProps) {
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
   const [isImageOpen, setIsImageOpen] = useState(false);
-  
-  return (
-    <div className="mx-auto max-w-6xl rounded-xl border border-zinc-200 bg-white p-8 shadow-sm">
-      <p className="text-sm text-zinc-500">SKU: {product.sku}</p>
-      <h1 className="mb-8 text-center text-3xl font-bold capitalize text-purple-500">
-        {product.title}
-      </h1>
 
-      <div className="grid grid-cols-[508px_400px] justify-center gap-16">
-        <div className="self-start flex rounded-xl p-6 shadow-md shadow-zinc-300">
-          <div className="flex gap-5 w-20 shrink-0 flex-col">
-            {product.images.map((image) => (
-              <button
-                key={image}
-                type="button"
-                onClick={() => setSelectedImage(image)}
-                className={`h-20 w-20 cursor-pointer rounded-lg border p-1 transition ${
-                  selectedImage === image
-                    ? "border-zinc-800"
-                    : "border-zinc-200 hover:border-zinc-400"
-                }`}
-              >
-                <Image
-                  src={image}
-                  alt={product.title}
-                  width={80}
-                  height={80}
-                  className="h-full w-full object-contain"
-                />
-              </button>
-            ))}
+  const isInStock = product.stock > 0;
+
+  return (
+    <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+        <div className="border-b border-zinc-100 px-10 py-6">
+        <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">
+          SKU: {product.sku}
+        </p>
+
+        <div className="flex justify-between">
+          <h1 className="mt-2 text-3xl font-bold capitalize tracking-tight text-zinc-900">
+            {product.title}
+          </h1>
+          <button 
+            type="button"
+            className="cursor-pointer"
+            onClick={() => {}}>
+            <FaHeart className="text-red-500" />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[1fr_400px] gap-14 px-10 pt-6">
+        <div className="flex gap-6 border-r border-zinc-100">
+          <div className="flex w-20 shrink-0 flex-col gap-4">
+            {product.images.map((image) => {
+              const isSelected = selectedImage === image;
+
+              return (
+                <button
+                  key={image}
+                  type="button"
+                  aria-label={`View ${product.title} image`}
+                  onClick={() => setSelectedImage(image)}
+                  className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-xl border bg-white p-2 transition-all ${
+                    isSelected
+                      ? "border-purple-500 ring-2 ring-purple-500/10"
+                      : "border-zinc-200 hover:border-zinc-400"
+                  }`}
+                >
+                  <Image
+                    src={image}
+                    alt={product.title}
+                    width={80}
+                    height={80}
+                    className="h-full w-full object-contain"
+                  />
+                </button>
+              );
+            })}
           </div>
 
-          <div className="relative flex h-360px w-360px shrink-0 items-center justify-center">
+          <div className="flex h-400px flex-1 items-center justify-center rounded-2xl bg-zinc-50">
             <button
               type="button"
+              aria-label={`Open ${product.title} image`}
               onClick={() => setIsImageOpen(true)}
               className="cursor-zoom-in"
             >
               <Image
                 src={selectedImage}
                 alt={product.title}
-                width={360}
-                height={360}
+                width={400}
+                height={400}
                 priority
-                className="h-full w-full object-contain"
+                className="max-h-360px w-auto object-contain transition-transform duration-300 hover:scale-105"
               />
             </button>
           </div>
         </div>
 
-        <div className="flex w-400px shrink-0 flex-col gap-5">
-          <div>
-            <p className="text-sm text-zinc-500">Brand</p>
-            <p className="font-medium text-zinc-800">{product.brand}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-zinc-500">Category</p>
-            <p className="font-medium text-zinc-800">{product.category}</p>
-          </div>
-          <div>
-            <p className="font-bold text-xl text-zinc-800">
-              ⭐ {product.rating}
-            </p>
-          </div>
-
-          <div className="mt-2">
-            <span className="inline-flex items-center rounded-md bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-600">
-              -{product.discountPercentage}% OFF
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-600">
+              {product.category}
             </span>
 
-            <div className="mt-2 flex items-center gap-3">
-              <p className="text-3xl font-bold text-zinc-900">
-                ${product.price}
-              </p>
+            <span className="text-sm text-zinc-400">•</span>
 
-              <div
-                className={`flex items-center gap-1.5 text-sm font-medium ${
-                  product.stock > 0 ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {product.stock > 0 ? (
-                  <FaCheck className="h-3.5 w-3.5" />
-                ) : (
-                  <X className="h-4 w-4" />
-                )}
+            <span className="text-sm text-zinc-500">{product.brand}</span>
+          </div>
 
-                <span>
-                  {product.stock > 0 ? product.availabilityStatus : "Out of Stock"}
-                </span>
-              </div>
+          <div className="mt-5 flex items-center gap-2">
+            <span className="text-2xl text-amber-400">★</span>
+
+            <span className="font-semibold text-zinc-800">
+              {product.rating}
+            </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                document
+                  .getElementById("reviews")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="cursor-pointer text-sm text-zinc-400 transition hover:text-purple-500"
+            >
+              ({product.reviews.length} reviews)
+            </button>
+          </div>
+
+          <div className="my-6 border-t border-zinc-100" />
+          <div>
+            <span className="inline-flex rounded-md bg-red-50 px-3 py-1 text-xs font-bold text-red-400">
+              -{product.discountPercentage}% OFF
+            </span>
+          </div>
+          <div className="flex gap-4">
+            <p className="mt-3 text-4xl font-bold tracking-tight text-zinc-900">
+              ${product.price}
+            </p>
+
+            <div
+              className={`mt-4 flex items-center gap-2 text-sm font-medium ${
+                isInStock ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {isInStock ? (
+                <FaCheck className="h-3.5 w-3.5" />
+              ) : (
+                <X className="h-4 w-4" />
+              )}
+
+              <span>
+                {isInStock ? product.availabilityStatus : "Out of Stock"}
+              </span>
             </div>
           </div>
 
-          <details className="group border-t border-zinc-200 pt-4">
-            <summary className="bg-zinc-200 rounded-lg flex cursor-pointer list-none items-center justify-between px-3 py-2 font-medium text-zinc-800">
-              Description
-
-              <span className="transition-transform group-open:rotate-180">
-                ↓
-              </span>
-            </summary>
-
-            <p className="p-4 text-sm text-justify leading-6 text-zinc-600">
-              {product.description}
-            </p>
-          </details>
-
-          <details className="group border-t border-zinc-200 pt-4">
-            <summary className="bg-zinc-200 rounded-lg flex cursor-pointer list-none items-center justify-between px-3 py-2 font-medium text-zinc-800">
-              Dimensions
-
-              <span className="transition-transform group-open:rotate-180">
-                ↓
-              </span>
-            </summary>
-
-            <p className="p-4 text-sm text-justify leading-6 text-zinc-600">
-              {product.dimensions.depth} x 
-              {product.dimensions.height} x 
-              {product.dimensions.width}
-            </p>
-          </details>
-      
           <button
             type="button"
-            disabled={product.stock === 0}
-            className="cursor-pointer rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={!isInStock}
+            className="mt-10 w-full cursor-pointer rounded-xl bg-purple-600 px-6 py-4 font-semibold text-white shadow-sm transition hover:bg-purple-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+            {isInStock ? "Add to Cart" : "Out of Stock"}
           </button>
+
+          <div className="mt-2 flex items-start gap-3 rounded-xl bg-zinc-50 p-4">
+            <FaTruck className="mt-0.5 h-4 w-4 shrink-0 text-purple-500" />
+
+            <div>
+              <p className="text-sm font-medium text-zinc-800">
+                Shipping information
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-zinc-500">
+                {product.shippingInformation}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="mx-12 my-12 space-y-8 rounded-xl bg-zinc-100/60 px-8 py-10">
-        <div className="rounded-lg bg-white px-6 py-5 shadow-sm">
-          <h2 className="mb-2 text-lg font-semibold text-zinc-800">
-            Shipping Information
-          </h2>
+      <div className="border-t border-zinc-100 bg-zinc-50/50 px-10 py-10">
+        <div className="space-y-4">
+          <details className="group rounded-xl border border-zinc-200 bg-white">
+            <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 font-semibold text-zinc-800">
+              Description
 
-          <p className="text-sm leading-6 text-zinc-600">
-            {product.shippingInformation}
-          </p>
+              <span className="text-lg text-zinc-400 transition-transform group-open:rotate-180">
+                ↓
+              </span>
+            </summary>
+
+            <div className="border-t border-zinc-100 px-5 py-4">
+              <p className="text-sm leading-6 text-zinc-600">
+                {product.description}
+              </p>
+            </div>
+          </details>
+
+          <details className="group rounded-xl border border-zinc-200 bg-white">
+            <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 font-semibold text-zinc-800">
+              Dimensions
+
+              <span className="text-lg text-zinc-400 transition-transform group-open:rotate-180">
+                ↓
+              </span>
+            </summary>
+
+            <div className="border-t border-zinc-100 px-5 py-4">
+              <p className="text-sm leading-6 text-zinc-600">
+                {product.dimensions.depth} × {product.dimensions.height} ×{" "}
+                {product.dimensions.width}
+              </p>
+            </div>
+          </details>
         </div>
 
-        <div className="rounded-lg bg-white px-8 py-6 shadow-md shadow-zinc-200">
-          <div className="mb-6 flex items-center justify-between border-b border-zinc-200 pb-4">
-            <h2 className="text-2xl font-bold text-purple-600">
-              Reviews
-            </h2>
+        <div id="reviews" className="mt-6 rounded-xl border border-zinc-200 bg-white p-8">
+          <div className="mb-6 flex items-center justify-between border-b border-zinc-100 pb-5">
+            <div>
+              <h2 className="text-xl font-bold text-zinc-900">Reviews</h2>
 
-            <span className="text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
+                What customers are saying
+              </p>
+            </div>
+
+            <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-500">
               {product.reviews.length} reviews
             </span>
           </div>
 
-          <div className="divide-y divide-zinc-200">
+          <div className="divide-y divide-zinc-100">
             {product.reviews.map((review) => (
-              <div key={review.reviewerEmail} className="py-6 first:pt-0 last:pb-0">
-                <div className="flex items-center justify-between">
-                  <p className="font-semibold text-zinc-800">
-                    {review.reviewerName}
-                  </p>
+              <div
+                key={review.reviewerEmail}
+                className="py-6 first:pt-0 last:pb-0"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-semibold text-zinc-800">
+                      {review.reviewerName}
+                    </p>
 
-                  <p className="font-semibold text-amber-500">
-                    {"★".repeat(review.rating)}
-                    <span className="ml-1 text-xs text-zinc-400">
+                    <p className="mt-1 text-xs text-zinc-400">
+                      {new Date(review.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm tracking-wide text-amber-400">
+                      {"★".repeat(review.rating)}
+                    </span>
+
+                    <span className="text-xs text-zinc-400">
                       {review.rating}/5
                     </span>
-                  </p>
+                  </div>
                 </div>
 
-                <p className="mt-1 text-xs text-zinc-400">
-                  {review.reviewerEmail}
-                </p>
-
-                <p className="mt-1 text-xs text-zinc-400">
-                  {new Date(review.date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </p>
-
-                <p className="mt-4 leading-6 text-zinc-600">
+                <p className="mt-4 text-sm leading-6 text-zinc-600">
                   {review.comment}
                 </p>
               </div>
@@ -210,11 +264,11 @@ export function ProductDetail({ product }: ProductProps) {
 
       {isImageOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-8"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-8 backdrop-blur-sm"
           onClick={() => setIsImageOpen(false)}
         >
           <div
-            className="relative inline-block"
+            className="relative rounded-2xl bg-white p-4 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <Image
@@ -222,15 +276,16 @@ export function ProductDetail({ product }: ProductProps) {
               alt={product.title}
               width={800}
               height={800}
-              className="max-h-[90vh] max-w-[90vw] object-contain"
+              className="max-h-[85vh] max-w-[85vw] rounded-xl object-contain"
             />
 
             <button
               type="button"
+              aria-label="Close image"
               onClick={() => setIsImageOpen(false)}
-              className="cursor-pointer absolute right-0 top-0 text-xl text-zinc-800 shadow"
+              className="absolute right-6 top-6 cursor-pointer rounded-full bg-zinc-900/70 p-2 transition hover:bg-zinc-900"
             >
-              <X className="text-white h-5 w-5" />
+              <X className="h-5 w-5 text-white" />
             </button>
           </div>
         </div>
