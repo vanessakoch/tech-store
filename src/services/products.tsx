@@ -13,6 +13,8 @@ const electronicsCategories = [
   "laptops",
   "tablets",
   "mobile-accessories",
+  "mens-watches",
+  "womens-watches",
 ];
 
 export async function getElectronicsProducts(): Promise<Product[]> {
@@ -22,7 +24,11 @@ export async function getElectronicsProducts(): Promise<Product[]> {
     )
   );
 
-  return responses.flatMap(response => response.products);
+  const products = responses.flatMap(
+    (response) => response.products
+  );
+
+  return products;
 }
 
 export async function getProduct(id: number): Promise<Product> {

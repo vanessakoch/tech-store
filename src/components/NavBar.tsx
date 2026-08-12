@@ -5,9 +5,11 @@ import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { LuMenu, LuMonitorSmartphone, LuShoppingCart, LuX } from "react-icons/lu";
 import { MenuMobile } from "./MenuMobile";
+import { useFavorites } from "@/hooks/useFavorites";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const favorites = useFavorites().favorites;
   const navLink = "relative transition-colors duration-300 hover:text-purple-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full"
 
   return (
@@ -36,9 +38,12 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/">
+          <Link href="/favorites">
             <FaHeart className="text-red-500 transition-color hover:text-red-700" size={20}/>
           </Link>
+          <p>
+            {favorites.length ? favorites.length : 0}
+          </p>
 
           <Link href="/" className="transition-colors hover:text-purple-500">
             <LuShoppingCart size={26}/>
