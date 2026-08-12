@@ -1,12 +1,23 @@
-import { Product } from "@/types/product"
 import Image from "next/image"
 import Link from "next/link"
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Product } from "@/types/product"
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({product}: ProductCardProps) {
+  const {
+    toggleFavorite,
+    isFavorite,
+    hydrated,
+  } = useFavorites();
+
+  const favorite = hydrated && isFavorite(product.id);
+  const isInStock = product.stock > 0;
+
   return(
     <article
       className="
@@ -36,9 +47,22 @@ export function ProductCard({product}: ProductCardProps) {
       </Link>
 
       <div className="flex flex-col gap-2 p-4">
-        <span className="text-xs uppercase tracking-wide text-zinc-500">
-          {product.category}
-        </span>
+        <div className="flex justify-between">
+          <span className="text-xs uppercase tracking-wide text-zinc-500">
+            {product.category}
+          </span>
+          <button 
+            onClick={() => toggleFavorite(product.id)}
+            type="button"
+            className="cursor-pointer
+          ">
+            {favorite ? (
+              <FaHeart className="text-red-500 transition-transform hover:scale-110"/> 
+            ):(
+              <FaRegHeart className="text-zinc-800"/>
+            )}
+          </button>
+        </div>
 
         <Link href={`/products/${product.id}`}>
           <h2 className="line-clamp-2 h-12 text-sm font-medium text-zinc-800 group-hover:text-purple-600">
@@ -66,6 +90,8 @@ export function ProductCard({product}: ProductCardProps) {
         </div>
 
         <button
+          type="button"
+          disabled={!isInStock}
           className="
             mt-2
             rounded-lg
@@ -76,9 +102,11 @@ export function ProductCard({product}: ProductCardProps) {
             transition
             hover:bg-purple-700
             cursor-pointer
+            disabled:cursor-not-allowed 
+            disabled:opacity-50
           "
         >
-          Add to cart
+          {isInStock ? "Add to Cart" : "Out of Stock"}
         </button>
       </div>
     </article>

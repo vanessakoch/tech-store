@@ -18,7 +18,7 @@ export default async function ProductPage({
   const product: Product = await getProduct(Number(id));
 
   return(
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-zinc-100/60">
       <Navbar />
       <div className="mx-24 my-6">
         <ProductDetail product={product} />

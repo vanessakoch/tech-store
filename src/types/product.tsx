@@ -24,7 +24,7 @@ type Dimension = {
   depth: number;
 }
 
-type Review = {
+export type Review = {
   rating: number;
   comment: string;
   date: string;
