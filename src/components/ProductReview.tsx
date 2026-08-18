@@ -8,11 +8,11 @@ export function ProductReview({reviews}: ReviewsProps)  {
   return (
     <div
       id="reviews"
-      className="mt-6 rounded-xl border border-zinc-200 bg-white p-4 sm:p-6 lg:p-8"
+      className="mt-6 pb-6 overflow-hidden rounded-xl border border-zinc-300 bg-white"
     >
-      <div className="mb-6 flex items-center justify-between border-b border-zinc-100 pb-5">
+      <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-100/60 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
         <div>
-          <h2 className="text-xl font-bold text-zinc-900">
+          <h2 className=" text-xl font-bold text-zinc-900">
             Reviews
           </h2>
 
@@ -21,12 +21,12 @@ export function ProductReview({reviews}: ReviewsProps)  {
           </p>
         </div>
 
-        <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-500">
+        <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-zinc-500">
           {reviews.length} reviews
         </span>
       </div>
 
-      <div className="divide-y divide-zinc-100">
+      <div className="divide-y divide-zinc-200 px-4 pt-4 sm:px-6 lg:px-8">
         {reviews.map((review) => (
           <div
             key={review.reviewerEmail}

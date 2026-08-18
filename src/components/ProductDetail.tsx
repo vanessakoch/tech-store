@@ -20,8 +20,8 @@ export function ProductDetail({ product }: ProductProps) {
   const isInStock = product.stock > 0;
 
   return (
-    <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-      <div className="border-b border-zinc-100 px-4 py-5 sm:px-6 lg:px-10 lg:py-6">
+    <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-md">
+      <div className="border-b border-zinc-200 px-4 py-5 sm:px-6 lg:px-10 lg:py-6">
         <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">
           SKU: {product.sku}
         </p>
@@ -64,7 +64,7 @@ export function ProductDetail({ product }: ProductProps) {
             </span>
           </div>
 
-          <div className="mt-5 flex items-center gap-2">
+          <div className="my-5 flex items-center gap-2">
             <span className="text-2xl text-amber-400">★</span>
 
             <span className="font-semibold text-zinc-800">
@@ -84,10 +84,8 @@ export function ProductDetail({ product }: ProductProps) {
             </button>
           </div>
 
-          <div className="my-6 border-t border-zinc-100" />
-
           <div>
-            <span className="inline-flex rounded-md bg-red-50 px-3 py-1 text-xs font-bold text-red-400">
+            <span className="inline-flex rounded-md bg-red-50 px-3 py-1 text-xs font-bold text-pink-600">
               -{product.discountPercentage}% OFF
             </span>
           </div>
@@ -140,9 +138,9 @@ export function ProductDetail({ product }: ProductProps) {
         </div>
       </div>
 
-      <div className="border-t border-zinc-100 bg-zinc-50/50 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
+      <div className="border-t border-zinc-300 bg-zinc-50/50 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
         <div className="space-y-4">
-          <details className="group rounded-xl border border-zinc-200 bg-white">
+          <details className="group rounded-xl border border-zinc-300 bg-white">
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 font-semibold text-zinc-800">
               Description
 
@@ -151,14 +149,14 @@ export function ProductDetail({ product }: ProductProps) {
               </span>
             </summary>
 
-            <div className="border-t border-zinc-100 px-5 py-4">
+            <div className="border-t border-zinc-200 px-5 py-4">
               <p className="text-sm leading-6 text-zinc-600">
                 {product.description}
               </p>
             </div>
           </details>
 
-          <details className="group rounded-xl border border-zinc-200 bg-white">
+          <details className="group rounded-xl border border-zinc-300 bg-white">
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 font-semibold text-zinc-800">
               Dimensions
 
@@ -167,7 +165,7 @@ export function ProductDetail({ product }: ProductProps) {
               </span>
             </summary>
 
-            <div className="border-t border-zinc-100 px-5 py-4">
+            <div className="border-t border-zinc-200 px-5 py-4">
               <p className="text-sm leading-6 text-zinc-600">
                 {product.dimensions.depth} ×{" "}
                 {product.dimensions.height} ×{" "}

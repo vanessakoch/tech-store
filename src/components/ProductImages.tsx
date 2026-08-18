@@ -12,7 +12,7 @@ export function ProductImages({product}: ImagesProps) {
   const [isImageOpen, setIsImageOpen] = useState(false);
 
   return (
-    <div className="flex min-w-0 flex-col gap-4 border-zinc-100 lg:flex-row lg:border-r lg:pr-8">
+    <div className="flex min-w-0 flex-col gap-4 lg:flex-row  lg:pr-8">
       <div className="flex w-full shrink-0 flex-row gap-4 overflow-x-auto lg:w-20 lg:flex-col lg:overflow-visible">
         {product.images.map((image) => {
           const isSelected = selectedImage === image;
@@ -26,7 +26,7 @@ export function ProductImages({product}: ImagesProps) {
               className={`flex h-20 w-20 shrink-0 cursor-pointer items-center justify-center rounded-xl border bg-white p-2 transition-all ${
                 isSelected
                   ? "border-purple-500 ring-2 ring-purple-500/10"
-                  : "border-zinc-200 hover:border-zinc-400"
+                  : "border-zinc-300 hover:border-zinc-400"
               }`}
             >
               <Image

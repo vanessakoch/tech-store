@@ -13,7 +13,7 @@ export function Navbar() {
   const navLink = "relative transition-colors duration-300 hover:text-purple-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full"
 
   return (
-    <header className="w-full shadow-[0_6px_12px_-6px_rgba(0,0,0,0.15)]">
+    <header className="w-full shadow-[0_6px_12px_-6px_rgba(0,0,0,0.15)] bg-white">
       <nav className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
         <Link 
