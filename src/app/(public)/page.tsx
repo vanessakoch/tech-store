@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
 
   return (
-    <main className="min-h-screen">
+    <main>
       <Navbar />
 
       <section className="mx-auto flex max-w-7xl flex-col items-center gap-10 px-6 py-12 md:flex-row md:px-8">

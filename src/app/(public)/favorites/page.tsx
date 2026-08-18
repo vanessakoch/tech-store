@@ -4,7 +4,7 @@ import { Navbar } from "@/components/NavBar";
 
 export default function Favorites() {
   return (
-    <main className="min-h-screen">
+    <main>
       <Navbar />
       <FavoritesClient />
     </main>

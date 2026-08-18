@@ -46,7 +46,7 @@ export function ProductImages({product}: ImagesProps) {
           type="button"
           aria-label={`Open ${product.title} image`}
           onClick={() => setIsImageOpen(true)}
-          className="flex w-full max-w-300px items-start justify-center rounded-2xl bg-zinc-50"
+          className="cursor-pointer flex w-full max-w-300px items-start justify-center rounded-2xl bg-zinc-50"
         >
           <Image
             src={selectedImage}

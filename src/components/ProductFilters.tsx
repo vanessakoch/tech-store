@@ -35,6 +35,8 @@ export function ProductFilters({
     { label: "Laptops", value: "laptops" },
     { label: "Tablets", value: "tablets" },
     { label: "Accessories", value: "mobile-accessories" },
+    { label: "Mens Watches", value: "mens-watches" },
+    { label: "Womens Watches", value: "womens-watches" },
   ];
 
   const brands = [
@@ -43,6 +45,10 @@ export function ProductFilters({
     "Lenovo",
     "Asus",
     "HP",
+    "Rolex",
+    "Longines",
+    "IWC",
+    "Fashion Gold"
   ];
 
   const toggleCategory = (category: string) => {

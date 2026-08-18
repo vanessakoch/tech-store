@@ -8,7 +8,7 @@ export default async function Products() {
   const products: Product[] = await getElectronicsProducts()
 
   return (
-    <main className="min-h-screen">
+    <main>
       <Navbar />
       <ProductsClient products={products} />
     </main>

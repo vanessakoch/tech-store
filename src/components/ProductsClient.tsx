@@ -15,9 +15,17 @@ export function ProductsClient({ products }: ProductsClientProps) {
   const [search, setSearch] = useState("");
 
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.title
+    const searchWords = search
       .toLowerCase()
-      .includes(search.toLowerCase());
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const matchesSearch =
+      searchWords.length === 0 ||
+      searchWords.every((word) =>
+        product.title.toLowerCase().includes(word)
+      );
 
     const matchesCategory =
       categories.length === 0 ||
