@@ -12,7 +12,7 @@ export function ProductReview({reviews}: ReviewsProps)  {
     >
       <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-100/60 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
         <div>
-          <h2 className=" text-xl font-bold text-zinc-900">
+          <h2 className="text-xl font-bold text-zinc-900">
             Reviews
           </h2>
 

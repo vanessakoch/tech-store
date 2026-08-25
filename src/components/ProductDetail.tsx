@@ -8,6 +8,7 @@ import { Product } from "@/types/product";
 import { useFavorites } from "@/hooks/useFavorites";
 import { ProductReview } from "./ProductReview";
 import { ProductImages } from "./ProductImages";
+import { useCartStore } from "@/store/cartStore";
 
 type ProductProps = {
   product: Product;
@@ -15,7 +16,7 @@ type ProductProps = {
 
 export function ProductDetail({ product }: ProductProps) {
   const { toggleFavorite, isFavorite, hydrated } = useFavorites();
-
+  const addToCart = useCartStore((state) => state.addToCart);
   const favorite = hydrated && isFavorite(product.id);
   const isInStock = product.stock > 0;
 
@@ -118,6 +119,14 @@ export function ProductDetail({ product }: ProductProps) {
             type="button"
             disabled={!isInStock}
             className="mt-10 w-full cursor-pointer rounded-xl bg-purple-600 px-6 py-4 font-semibold text-white shadow-sm transition hover:bg-purple-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => {
+              addToCart({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                thumbnail: product.thumbnail,
+              });
+            }}
           >
             {isInStock ? "Add to Cart" : "Out of Stock"}
           </button>
