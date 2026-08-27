@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useFavoritesStore } from "@/store/favorites-store";
+import { useFavoritesStore } from "@/store/favoriteStore";
 
 export function useFavorites() {
   const [hydrated, setHydrated] = useState(false);

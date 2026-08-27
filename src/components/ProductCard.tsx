@@ -3,12 +3,15 @@ import Link from "next/link"
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Product } from "@/types/product"
 import { useFavorites } from "@/hooks/useFavorites";
+import { useCartStore } from "@/store/cartStore";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({product}: ProductCardProps) {
+  const addToCart = useCartStore((state) => state.addToCart);
+  
   const {
     toggleFavorite,
     isFavorite,
@@ -105,6 +108,14 @@ export function ProductCard({product}: ProductCardProps) {
             disabled:cursor-not-allowed 
             disabled:opacity-50
           "
+          onClick={() => {
+            addToCart({
+              id: product.id,
+              title: product.title,
+              price: product.price,
+              thumbnail: product.thumbnail,
+            });
+          }}
         >
           {isInStock ? "Add to Cart" : "Out of Stock"}
         </button>

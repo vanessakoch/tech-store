@@ -6,10 +6,13 @@ import { FaHeart } from "react-icons/fa";
 import { LuMenu, LuMonitorSmartphone, LuShoppingCart, LuX } from "react-icons/lu";
 import { MenuMobile } from "./MenuMobile";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useCartStore } from "@/store/cartStore";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const favorites = useFavorites().favorites;
+  const cartItems = useCartStore((state) => state.items);
+
   const navLink = "relative transition-colors duration-300 hover:text-purple-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full"
 
   return (
@@ -45,9 +48,10 @@ export function Navbar() {
             {favorites.length ? favorites.length : 0}
           </p>
 
-          <Link href="/" className="transition-colors hover:text-purple-500">
-            <LuShoppingCart size={26}/>
+          <Link href="/cart" className="transition-colors hover:text-purple-500">
+              <LuShoppingCart size={26}/> 
           </Link>
+          <p>{cartItems.length}</p>
 
           <button className="md:hidden" onClick={() => setOpen(!open)}>
             {open ? <LuX size={28} /> : <LuMenu size={28} />}
