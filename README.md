@@ -6,7 +6,7 @@ O projeto simula uma experiência completa de compra, desde a navegação pelos 
 
 ## 🔗 Live Demo
 
-[View the live project](https://tech-store-57brhciji-vahnkoch-3682s-projects.vercel.app/)
+[View the live project](https://tech-store-azure-three.vercel.app/)
 
 ## ✨ Funcionalidades
 
