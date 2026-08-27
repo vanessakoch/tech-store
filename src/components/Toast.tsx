@@ -35,7 +35,7 @@ export default function Toast() {
       <button
         type="button"
         onClick={hideToast}
-        className="ml-2 text-lg text-zinc-400 transition hover:text-zinc-700"
+        className="cursor-pointer ml-2 text-lg text-zinc-400 transition hover:text-zinc-700"
       >
         <X />
       </button>

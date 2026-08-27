@@ -9,6 +9,13 @@ type CartItem = {
   quantity: number;
 };
 
+type Order = {
+  id: string;
+  items: CartItem[];
+  total: number;
+  email: string;
+};
+
 type CartStore = {
   items: CartItem[];
   addToCart: (product: Omit<CartItem, "quantity">) => void;
@@ -19,6 +26,9 @@ type CartStore = {
 
   toastMessage: string | null;
   hideToast: () => void;
+
+  lastOrder: Order | null;
+  createOrder: (email: string) => void;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -95,6 +105,26 @@ export const useCartStore = create<CartStore>()(
         set({
           toastMessage: null,
         }),
+         
+      createOrder: (email) =>
+        set((state) => {
+          const total = state.items.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+          );
+
+          return {
+            lastOrder: {
+              id: `TS-${Math.floor(10000 + Math.random() * 90000)}`,
+              items: state.items,
+              total,
+              email,
+            },
+            items: [],
+          };
+        }),
+      
+      lastOrder: null
     }),
 
     {

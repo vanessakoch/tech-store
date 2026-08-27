@@ -6,50 +6,84 @@ import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
 import { Navbar } from "@/components/NavBar";
 import { formatPrice } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import FormInput from "@/components/FormInput";
+
+type CheckoutFormData = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  cardNumber: string;
+  expirationDate: string;
+  cvv: string;
+  nameOnCard: string;
+};
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const cartItems = useCartStore((state) => state.items);
+  const createOrder = useCartStore((state) => state.createOrder);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CheckoutFormData>();
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
+  const onSubmit = (data: CheckoutFormData) => {
+    createOrder(data.email);
+    router.push("/order-success");
+  };
+
   return (
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-zinc-50 px-6 py-10">
+      <main className="px-6 py-10">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <Link
               href="/cart"
               className="text-sm text-zinc-500 transition hover:text-zinc-900"
             >
-              ← Back to cart
+              <ArrowLeft />
             </Link>
 
-            <h1 className="mt-4 text-3xl font-bold text-zinc-900">
+            <h2 className="mt-4 text-3xl font-bold text-zinc-900">
               Checkout
-            </h1>
+            </h2>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
             <section className="rounded-2xl bg-white p-6 shadow-sm">
-              <form className="space-y-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 <div>
                   <h2 className="mb-4 text-xl font-semibold text-zinc-900">
                     Contact information
                   </h2>
 
-                  <label className="mb-2 block text-sm font-medium text-zinc-700">
-                    Email
-                  </label>
-
-                  <input
+                  <FormInput
+                    label="E-mail"
+                    error={errors.email?.message} 
                     type="email"
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                    {...register("email", {
+                      required: "E-mail is required",
+                      pattern: {
+                        value: /^\S+@\S+\.\S+$/,
+                        message: "Please enter a valid email",
+                      },
+                    })}
                   />
                 </div>
 
@@ -59,67 +93,63 @@ export default function CheckoutPage() {
                   </h2>
 
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="mb-2 block text-sm font-medium text-zinc-700">
-                        First name
-                      </label>
+                    <FormInput
+                      label="First Name"
+                      type="text"
+                      placeholder="John"
+                      error={errors.firstName?.message}
+                      {...register("firstName", {
+                        required: "First name is required",
+                        minLength: {
+                          value: 2,
+                          message: "First name must have at least 2 characters",
+                        },
+                      })}
+                    />
 
-                      <input
-                        type="text"
-                        placeholder="John"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="mb-2 block text-sm font-medium text-zinc-700">
-                        Last name
-                      </label>
-
-                      <input
-                        type="text"
-                        placeholder="Doe"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
-                      />
-                    </div>
+                    <FormInput
+                      label="Last Name"
+                      type="text"
+                      placeholder="Doe"
+                      {...register("lastName",{
+                        required: "Last name is required",
+                      })}
+                      error={errors.lastName?.message}
+                    />
                   </div>
 
                   <div className="mt-4">
-                    <label className="mb-2 block text-sm font-medium text-zinc-700">
-                      Address
-                    </label>
-
-                    <input
+                    <FormInput
+                      label="Address"
+                      error={errors.address?.message}
                       type="text"
                       placeholder="123 Main Street"
-                      className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                      {...register("address", {
+                          required: "Address is required",
+                      })}
                     />
                   </div>
 
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="mb-2 block text-sm font-medium text-zinc-700">
-                        City
-                      </label>
+                    <FormInput
+                      label="City"
+                      error={errors.city?.message} 
+                      type="text"
+                      placeholder="New York"
+                      {...register("city", {
+                        required: "City is required",
+                      })}
+                    />
 
-                      <input
-                        type="text"
-                        placeholder="New York"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="mb-2 block text-sm font-medium text-zinc-700">
-                        ZIP code
-                      </label>
-
-                      <input
-                        type="text"
-                        placeholder="10001"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
-                      />
-                    </div>
+                    <FormInput
+                      label="Zip Code"
+                      error={errors.zipCode?.message}
+                      type="text"
+                      placeholder="10001"
+                      {...register("zipCode", {
+                        required: "Zip code is required",
+                      })}
+                    />
                   </div>
                 </div>
 
@@ -129,34 +159,80 @@ export default function CheckoutPage() {
                   </h2>
 
                   <div className="rounded-xl border border-zinc-200 p-4">
-                    <p className="mb-4 text-sm font-medium text-zinc-700">
-                      Credit card
-                    </p>
-
-                    <input
+                    <FormInput
+                      label="Credit Card"
+                      error={errors.cardNumber?.message}
                       type="text"
-                      placeholder="Card number"
-                      className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                      inputMode="numeric"
+                      maxLength={19}
+                      placeholder="1234 5678 9012 3456"
+                      {...register("cardNumber", {
+                        required: "Card number is required",
+                        pattern: {
+                          value: /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/,
+                          message: "Card number must have 16 digits",
+                        },
+                        onChange: (event) => {
+                          const value = event.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 16)
+                            .replace(/(\d{4})(?=\d)/g, "$1 ");
+
+                          event.target.value = value;
+                        },
+                      })}
                     />
 
                     <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                      <input
+                      <FormInput
+                        error={errors.expirationDate?.message}
                         type="text"
                         placeholder="MM / YY"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                        {...register("expirationDate", {
+                          required: "Expiration date is required",
+                          pattern: {
+                            value: /^(0[1-9]|1[0-2])\s\/\s\d{2}$/,
+                            message: "Enter a valid expiration date",
+                          },
+                        })}
+                        onChange={(event) => {
+                          let value = event.target.value.replace(/\D/g, "");
+
+                          if (value.length > 2) {
+                            value = `${value.slice(0, 2)} / ${value.slice(2, 4)}`;
+                          }
+
+                          event.target.value = value;
+                        }}
                       />
 
-                      <input
+                      <FormInput
+                        error={errors.cvv?.message}
                         type="text"
                         placeholder="CVV"
-                        className="w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                        maxLength={3}
+                        inputMode="numeric"
+                        {...register("cvv", {
+                          required: "CVV is required",
+                          pattern: {
+                            value: /^\d{3}$/,
+                            message: "CVV must have 3 digits",
+                          },
+                          onChange: (event) => {
+                            event.target.value = event.target.value.replace(/\D/g, "");
+                          },
+                        })}
                       />
                     </div>
 
-                    <input
+                    <FormInput
                       type="text"
+                      error={errors.nameOnCard?.message}
+                      className="mt-4"
                       placeholder="Name on card"
-                      className="mt-4 w-full rounded-xl border border-zinc-200 px-4 py-3 outline-none transition focus:border-black"
+                      {...register("nameOnCard", {
+                        required: "Name on card is required",
+                      })}
                     />
                   </div>
 
@@ -167,7 +243,7 @@ export default function CheckoutPage() {
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-black py-4 font-semibold text-white transition hover:bg-zinc-800"
+                  className="cursor-pointer w-full rounded-xl bg-black py-4 font-semibold text-white transition hover:bg-zinc-800"
                 >
                   Place order
                 </button>

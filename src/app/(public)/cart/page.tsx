@@ -87,7 +87,7 @@ export default function CartPage() {
 
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="text-sm text-red-500 hover:text-red-700"
+                          className="cursor-pointer text-sm text-red-500 hover:text-red-700"
                         >
                           Remove
                         </button>
