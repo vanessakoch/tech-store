@@ -20,7 +20,7 @@ export default async function ProductPage({
   return(
     <main className="bg-zinc-100/60">
       <Navbar />
-      <div className="mx-24 my-6">
+      <div className="px-4 py-8 sm:px-6 lg:px-8">
         <ProductDetail product={product} />
       </div>
     </main>

@@ -4,6 +4,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Product } from "@/types/product"
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCartStore } from "@/store/cartStore";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -82,10 +83,7 @@ export function ProductCard({product}: ProductCardProps) {
 
         <div className="gap-4 flex items-center">
           <p className="text-2xl font-bold text-zinc-900">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(product.price)}
+            {formatPrice(product.price)}
           </p>
           <p className="text-xs text-purple-500 bg-purple-500/10 p-1 rounded-sm">
             -{product.discountPercentage}%

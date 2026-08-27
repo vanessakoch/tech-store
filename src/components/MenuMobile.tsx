@@ -28,9 +28,6 @@ export function MenuMobile() {
           Products
         </Link>
 
-        <Link href="/" className={menuItem}>
-          Categories
-        </Link>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export function ProductDetail({ product }: ProductProps) {
   const isInStock = product.stock > 0;
 
   return (
-    <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-md">
+    <div className="mx-auto w-full max-w-7xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-md">
       <div className="border-b border-zinc-200 px-4 py-5 sm:px-6 lg:px-10 lg:py-6">
         <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">
           SKU: {product.sku}
